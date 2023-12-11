@@ -10,7 +10,7 @@ function registerfn()
     {
         alert("Fill all details")
     }
-     else if(acc.accountno in localStorage)
+     else if(acc.accougntno in localStorage)
     {
         alert("Account Number Already Exists")
 
@@ -44,7 +44,9 @@ function loginfn()
         localStorage.setItem("currentuser",accnolog.value)
         window.location="./dashboard.html"
         
-        welcomeuser.innerHTML=`Welcome ${JSON.parse(localStorage.getItem(accnolog)).username}`
+       
+        
+       
 
     }
     else
@@ -64,6 +66,8 @@ var usrid=localStorage.getItem('currentuser')
 var usr=JSON.parse(localStorage.getItem(usrid))
 var usrname=usr.username
 welcomeuser.innerHTML=`Welcome ${usrname}`
+document.getElementById('balancedisp').innerHTML=`Account Balance: ${usr.balance}`
+var withaccoo=JSON.parse(localStorage.getItem(withacc.value))
 
 
 function depositfn()
@@ -73,52 +77,61 @@ function depositfn()
     alert("Enter full details")
 
 }
-else if(depoacc.value==usrid)
+else if(depoacc.value  in localStorage)
 {   
     var depoacco=JSON.parse(localStorage.getItem(depoacc.value))
     console.log(depoacco)
     console.log("hello")
-    alert(`Old Account Balance: ${depoacco.balance}`)
+
     depoacco.balance=Number(depoacco.balance)+Number(depoamt.value);
     localStorage.setItem(depoacco.accountno,JSON.stringify(depoacco))
-    alert(`Amount Added: ${depoamt.value}`)
-    alert(`New Account Balance: ${depoacco.balance}`)
+    alert(`Amount ${depoamt.value} Added Successfully`)
+    var usrid=localStorage.getItem('currentuser')
+    var usr=JSON.parse(localStorage.getItem(usrid))
+    document.getElementById('balancedisp').innerHTML=`Account Balance: ${usr.balance}`
+
+
 
 
 } 
 else {
-    alert("Enter your account number")
+    alert("Account number doesn't exist")
 }
 
 
 
 }
 function withdrawfn()
-{   
+{   var usrid=localStorage.getItem('currentuser')
+var usr=JSON.parse(localStorage.getItem(usrid))
     if(withamt.value==""||withacc.value=="")
 {
     alert("Enter full details")
 
 }
+
+else if (Number(usr.balance)-Number(withamt.value)<0)
+{
+    alert("Insufficient Balance")
+
+}
 else if(withacc.value==usrid)
 {   
-    var withacco=JSON.parse(localStorage.getItem(withacc.value))
+    
     console.log(withacco)
     
-    alert(`Old Account Balance: ${withacco.balance}`)
+    var withacco=JSON.parse(localStorage.getItem(withacc.value))
     withacco.balance=Number(withacco.balance)-Number(withamt.value);
     localStorage.setItem(withacco.accountno,JSON.stringify(withacco))
     alert(`Amount Withdrawn: ${withamt.value}`)
-    alert(`New Account Balance: ${withacco.balance}`)
+    
+    balancedisp.innerHTML=`Account Balance: ${withacco.balance}`
+
 
 
 } 
 else {
     alert("Enter your account number")
-}
-
-
-
-}
+}}
 
 
